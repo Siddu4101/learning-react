@@ -1,0 +1,13 @@
+#to run the existing docker file and webapp
+services:
+  basic-react-app:
+    build: ./
+    ports:
+      - "3000:3000"
+    networks:
+      - mynetwork
+    container_name: basic_react_app_container
+
+networks:
+  mynetwork:
+    driver: bridge

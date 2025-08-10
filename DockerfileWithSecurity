@@ -1,0 +1,34 @@
+#This file has extra security that it will blocks the other user on same network will be blocked but
+#who have the exposed public uri with https will be accessible via ngroc
+
+#base image to run the application
+FROM node:current-alpine3.22
+
+#set the working directory
+WORKDIR /basic-react-application
+
+#copy the application code to working directory
+COPY . /basic-react-application/
+
+#install the node modles
+RUN npm install
+
+#expose the port
+EXPOSE 3000
+
+# Install ngrok
+RUN apk add --no-cache curl tar \
+    && curl -s https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz -o ngrok.tgz \
+    && tar -xzf ngrok.tgz -C /usr/local/bin \
+    && rm ngrok.tgz
+
+# Start both your app and ngrok
+CMD ["sh", "-c", "npm start & ngrok config add-authtoken $NGROK_AUTHTOKEN && ngrok http 3000 --log=stdout"]
+
+# run steps
+#docker build -t basic-react-application:1.0.0 -f DockerfileWithSecurity .
+#docker run -p 127.0.0.1:3000:3000 -d --env NGROK_AUTHTOKEN={your-ngrok-token} basic-react-application:1.0.0
+# or #docker run -p 127.0.0.1:3000:3000 -d -e NGROK_AUTHTOKEN={your-ngrok-token} basic-react-application:1.0.0
+
+#Now app is not acessible though ur host ip followed by port
+#u need to use the ngrok public uri to access it
