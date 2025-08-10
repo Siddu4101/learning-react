@@ -15,3 +15,7 @@ EXPOSE 3000
 
 #start the application
 CMD ["npm", "start"]
+
+# to run this 
+#docker build -t basic-react-application:1.0.0 .
+#docker run -p 3000:3000 -d basic-react-application:1.0.0
