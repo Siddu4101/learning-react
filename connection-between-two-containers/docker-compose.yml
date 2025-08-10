@@ -1,0 +1,25 @@
+#this one it for creating a postgres database 
+services:
+  postgres:
+    image: postgres:17
+    container_name: postgres_container
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
+volumes:
+  postgres_data:
+
+networks:
+  mynetwork:
+    driver: bridge
+
+
+#run instructions
+# docker-compose up (to start the containers) u can pass the -d(for detached mode) -V(for removal of the volumes or network created) --build(to each time create new image and run)
+# docker-compose down (to stop the containers)
